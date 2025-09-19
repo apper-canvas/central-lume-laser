@@ -65,7 +65,14 @@ const CompanyCard = ({ company }) => {
                 >
                   {company.website_c.replace(/^https?:\/\//, '').replace(/\/$/, '')}
                 </a>
-              </p>
+</p>
+            )}
+            {company.company_size_c && (
+              <div className="mt-2">
+                <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-primary-50 text-primary-700 border border-primary-200">
+                  {company.company_size_c.charAt(0).toUpperCase() + company.company_size_c.slice(1)} Company
+                </span>
+              </div>
             )}
           </div>
         </div>

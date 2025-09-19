@@ -169,7 +169,13 @@ const revenue = financials.filter(f => f.type_c === "revenue").reduce((sum, f) =
                           <span className="text-slate-600">VAT Number:</span>
                           <span className="text-slate-900">{company.vat_number_c}</span>
                         </div>
-)}
+                      )}
+                      {company.company_size_c && (
+                        <div className="flex justify-between">
+                          <span className="text-slate-600">Company Size:</span>
+                          <span className="text-slate-900 capitalize">{company.company_size_c}</span>
+                        </div>
+                      )}
                       {company.website_c && (
                         <div className="flex items-center gap-2 text-sm">
                           <ApperIcon name="Globe" size={16} className="text-slate-400" />

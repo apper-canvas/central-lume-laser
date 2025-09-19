@@ -9,7 +9,7 @@ import companiesService from "@/services/api/companiesService"
 const CompanyForm = ({ onSuccess, onCancel }) => {
   const [loading, setLoading] = useState(false)
   const [logoLoading, setLogoLoading] = useState(false)
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     name: "",
     registrationNumber: "",
     incorporationDate: "",
@@ -22,6 +22,7 @@ const CompanyForm = ({ onSuccess, onCancel }) => {
     },
     directors: [],
     status: "active",
+    companySize: "small",
     vatNumber: "",
     yearEnd: "",
     website: "",
@@ -149,7 +150,7 @@ const CompanyForm = ({ onSuccess, onCancel }) => {
           placeholder="GB123456789"
         />
         
-        <FormField label="Status">
+<FormField label="Status">
           <select 
             className="input-field"
             value={formData.status}
@@ -157,10 +158,23 @@ const CompanyForm = ({ onSuccess, onCancel }) => {
           >
             <option value="active">Active</option>
             <option value="dormant">Dormant</option>
-<option value="inactive">Inactive</option>
+            <option value="inactive">Inactive</option>
           </select>
         </FormField>
-
+        
+        <FormField label="Company Size">
+          <select 
+            className="input-field"
+            value={formData.companySize}
+            onChange={(e) => handleChange("companySize", e.target.value)}
+          >
+            <option value="micro">Micro (1-10 employees)</option>
+            <option value="small">Small (11-50 employees)</option>
+            <option value="medium">Medium (51-250 employees)</option>
+            <option value="large">Large (251-1000 employees)</option>
+            <option value="enterprise">Enterprise (1000+ employees)</option>
+          </select>
+        </FormField>
 <FormField label="Website" className="mb-4">
           <Input
             type="url"
