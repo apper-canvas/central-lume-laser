@@ -9,13 +9,15 @@ export default {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
-      colors: {
+colors: {
         primary: {
           50: '#eff6ff',
           100: '#dbeafe',
+          400: '#60a5fa',
           500: '#3b82f6',
           600: '#2563eb',
           700: '#1d4ed8',
+          800: '#1e40af',
           900: '#1e3a8a',
         },
         slate: {
@@ -35,11 +37,13 @@ export default {
           100: '#fef3c7',
           500: '#f59e0b',
           600: '#d97706',
+          800: '#92400e',
         },
         emerald: {
           50: '#ecfdf5',
           500: '#10b981',
           600: '#059669',
+          800: '#065f46',
         },
         red: {
           50: '#fef2f2',
