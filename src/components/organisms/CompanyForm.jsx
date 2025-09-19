@@ -8,7 +8,7 @@ import companiesService from "@/services/api/companiesService"
 
 const CompanyForm = ({ onSuccess, onCancel }) => {
   const [loading, setLoading] = useState(false)
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     name: "",
     registrationNumber: "",
     incorporationDate: "",

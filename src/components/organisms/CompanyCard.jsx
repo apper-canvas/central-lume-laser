@@ -29,15 +29,15 @@ const CompanyCard = ({ company }) => {
         <div className="flex-1">
           <div className="flex items-center space-x-2 mb-2">
             <h3 className="text-lg font-semibold text-slate-900 truncate">
-              {company.name}
+{company.name_c || company.Name}
             </h3>
             <StatusIndicator status={company.status} />
           </div>
-          <p className="text-sm text-slate-500 mb-1">
-            Reg. #{company.registrationNumber}
+<p className="text-sm text-slate-500 mb-1">
+            Reg. #{company.registration_number_c}
           </p>
-          <p className="text-sm text-slate-500">
-            Incorporated {format(new Date(company.incorporationDate), "MMM d, yyyy")}
+<p className="text-sm text-slate-500">
+            Incorporated {format(new Date(company.incorporation_date_c), "MMM d, yyyy")}
           </p>
         </div>
         <Button variant="ghost" size="sm" onClick={handleViewDetails}>
@@ -55,12 +55,12 @@ const CompanyCard = ({ company }) => {
         
         <div className="flex items-center justify-between text-sm">
           <span className="text-slate-600">Year End:</span>
-          <span className="text-slate-900 font-medium">
-            {format(new Date(company.yearEnd), "MMM d")}
+<span className="text-slate-900 font-medium">
+            {format(new Date(company.year_end_c), "MMM d")}
           </span>
         </div>
         
-        {company.vatNumber && (
+{company.vat_number_c && (
           <div className="flex items-center justify-between text-sm">
             <span className="text-slate-600">VAT Registered:</span>
             <div className="flex items-center text-emerald-600">

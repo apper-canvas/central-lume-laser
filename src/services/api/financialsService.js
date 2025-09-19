@@ -1,56 +1,251 @@
-import financialsData from "@/services/mockData/financials.json"
+import { toast } from "react-toastify"
 
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+const tableName = 'financial_c'
 
 const financialsService = {
   async getAll() {
-    await delay(300)
-    return [...financialsData]
+    try {
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+
+      const params = {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "type_c"}},
+          {"field": {"Name": "amount_c"}},
+          {"field": {"Name": "description_c"}},
+          {"field": {"Name": "date_c"}},
+          {"field": {"Name": "category_c"}},
+          {"field": {"Name": "tax_year_c"}},
+          {"field": {"Name": "company_id_c"}}
+        ]
+      }
+
+      const response = await apperClient.fetchRecords(tableName, params)
+
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return []
+      }
+
+      return response.data || []
+    } catch (error) {
+      console.error("Error fetching financials:", error?.response?.data?.message || error)
+      return []
+    }
   },
   
   async getById(id) {
-    await delay(200)
-    const financial = financialsData.find(f => f.Id === id)
-    if (!financial) {
-      throw new Error("Financial record not found")
+    try {
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+
+      const params = {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "type_c"}},
+          {"field": {"Name": "amount_c"}},
+          {"field": {"Name": "description_c"}},
+          {"field": {"Name": "date_c"}},
+          {"field": {"Name": "category_c"}},
+          {"field": {"Name": "tax_year_c"}},
+          {"field": {"Name": "company_id_c"}}
+        ]
+      }
+
+      const response = await apperClient.getRecordById(tableName, id, params)
+
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return null
+      }
+
+      return response.data
+    } catch (error) {
+      console.error(`Error fetching financial ${id}:`, error?.response?.data?.message || error)
+      return null
     }
-    return { ...financial }
   },
   
   async getByCompany(companyId) {
-    await delay(250)
-    return financialsData.filter(f => f.companyId === companyId).map(f => ({ ...f }))
+    try {
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+
+      const params = {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "type_c"}},
+          {"field": {"Name": "amount_c"}},
+          {"field": {"Name": "description_c"}},
+          {"field": {"Name": "date_c"}},
+          {"field": {"Name": "category_c"}},
+          {"field": {"Name": "tax_year_c"}},
+          {"field": {"Name": "company_id_c"}}
+        ],
+        where: [{"FieldName": "company_id_c", "Operator": "EqualTo", "Values": [parseInt(companyId)]}]
+      }
+
+      const response = await apperClient.fetchRecords(tableName, params)
+
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return []
+      }
+
+      return response.data || []
+    } catch (error) {
+      console.error("Error fetching financials by company:", error?.response?.data?.message || error)
+      return []
+    }
   },
   
   async create(financialData) {
-    await delay(400)
-    const newId = Math.max(...financialsData.map(f => f.Id), 0) + 1
-    const newFinancial = {
-      ...financialData,
-      Id: newId
+    try {
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+
+      const params = {
+        records: [{
+          Name: financialData.description || "",
+          type_c: financialData.type || "",
+          amount_c: parseFloat(financialData.amount) || 0.0,
+          description_c: financialData.description || "",
+          date_c: financialData.date || "",
+          category_c: financialData.category || "",
+          tax_year_c: financialData.taxYear || "",
+          company_id_c: parseInt(financialData.companyId) || 0
+        }]
+      }
+
+      const response = await apperClient.createRecord(tableName, params)
+
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return null
+      }
+
+      if (response.results) {
+        const successful = response.results.filter(r => r.success)
+        const failed = response.results.filter(r => !r.success)
+        
+        if (failed.length > 0) {
+          console.error(`Failed to create ${failed.length} records:`, failed)
+          failed.forEach(record => {
+            if (record.message) toast.error(record.message)
+          })
+        }
+        
+        return successful.length > 0 ? successful[0].data : null
+      }
+    } catch (error) {
+      console.error("Error creating financial:", error?.response?.data?.message || error)
+      return null
     }
-    financialsData.push(newFinancial)
-    return { ...newFinancial }
   },
   
   async update(id, updates) {
-    await delay(350)
-    const index = financialsData.findIndex(f => f.Id === id)
-    if (index === -1) {
-      throw new Error("Financial record not found")
+    try {
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+
+      const params = {
+        records: [{
+          Id: id,
+          Name: updates.description || "",
+          type_c: updates.type || "",
+          amount_c: updates.amount ? parseFloat(updates.amount) : undefined,
+          description_c: updates.description || "",
+          date_c: updates.date || "",
+          category_c: updates.category || "",
+          tax_year_c: updates.taxYear || "",
+          company_id_c: updates.companyId ? parseInt(updates.companyId) : undefined
+        }]
+      }
+
+      const response = await apperClient.updateRecord(tableName, params)
+
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return null
+      }
+
+      if (response.results) {
+        const successful = response.results.filter(r => r.success)
+        const failed = response.results.filter(r => !r.success)
+        
+        if (failed.length > 0) {
+          console.error(`Failed to update ${failed.length} records:`, failed)
+          failed.forEach(record => {
+            if (record.message) toast.error(record.message)
+          })
+        }
+        
+        return successful.length > 0 ? successful[0].data : null
+      }
+    } catch (error) {
+      console.error("Error updating financial:", error?.response?.data?.message || error)
+      return null
     }
-    financialsData[index] = { ...financialsData[index], ...updates }
-    return { ...financialsData[index] }
   },
   
   async delete(id) {
-    await delay(250)
-    const index = financialsData.findIndex(f => f.Id === id)
-    if (index === -1) {
-      throw new Error("Financial record not found")
+    try {
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+
+      const params = { 
+        RecordIds: [id]
+      }
+
+      const response = await apperClient.deleteRecord(tableName, params)
+
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return false
+      }
+
+      if (response.results) {
+        const successful = response.results.filter(r => r.success)
+        const failed = response.results.filter(r => !r.success)
+        
+        if (failed.length > 0) {
+          console.error(`Failed to delete ${failed.length} records:`, failed)
+          failed.forEach(record => {
+            if (record.message) toast.error(record.message)
+          })
+        }
+        
+        return successful.length > 0
+      }
+    } catch (error) {
+      console.error("Error deleting financial:", error?.response?.data?.message || error)
+      return false
     }
-    const deleted = financialsData.splice(index, 1)[0]
-    return { ...deleted }
   }
 }
 

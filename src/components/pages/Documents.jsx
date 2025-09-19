@@ -41,14 +41,15 @@ const Documents = () => {
     let filtered = documents
     
     if (searchTerm) {
-      filtered = filtered.filter(doc =>
-        doc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        doc.companyName.toLowerCase().includes(searchTerm.toLowerCase())
+filtered = filtered.filter(doc =>
+        (doc.name_c && doc.name_c.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (doc.Name && doc.Name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (doc.company_name_c && doc.company_name_c.toLowerCase().includes(searchTerm.toLowerCase()))
       )
     }
     
     if (typeFilter !== "all") {
-      filtered = filtered.filter(doc => doc.type === typeFilter)
+      filtered = filtered.filter(doc => doc.type_c === typeFilter)
     }
     
     setFilteredDocuments(filtered)
@@ -75,7 +76,7 @@ const Documents = () => {
     return `${(size / (1024 * 1024)).toFixed(1)} MB`
   }
   
-  const documentTypes = [...new Set(documents.map(doc => doc.type))]
+const documentTypes = [...new Set(documents.map(doc => doc.type_c).filter(Boolean))]
   
   if (loading) return (
     <div className="p-6">
@@ -143,18 +144,18 @@ const Documents = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredDocuments.map((document) => (
-            <Card key={document.Id} className="p-4 hover:shadow-md transition-shadow">
+<Card key={document.Id} className="p-4 hover:shadow-md transition-shadow">
               <div className="flex items-start space-x-3">
                 <div className="flex-shrink-0">
                   <div className="w-10 h-10 bg-primary-50 rounded-lg flex items-center justify-center">
-                    <ApperIcon name={getFileIcon(document.type)} size={20} className="text-primary-600" />
+                    <ApperIcon name={getFileIcon(document.type_c)} size={20} className="text-primary-600" />
                   </div>
                 </div>
                 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between mb-2">
                     <h3 className="text-sm font-medium text-slate-900 truncate">
-                      {document.name}
+                      {document.name_c || document.Name}
                     </h3>
                     <Button variant="ghost" size="sm">
                       <ApperIcon name="Download" size={14} />
@@ -162,17 +163,17 @@ const Documents = () => {
                   </div>
                   
                   <div className="space-y-1">
-                    <p className="text-xs text-slate-600">{document.companyName}</p>
+                    <p className="text-xs text-slate-600">{document.company_name_c}</p>
                     <div className="flex items-center justify-between">
                       <Badge variant="default" className="text-xs">
-                        {document.type}
+                        {document.type_c}
                       </Badge>
                       <span className="text-xs text-slate-500">
-                        {getFileSize(document.size)}
+                        {getFileSize(document.size_c)}
                       </span>
                     </div>
                     <p className="text-xs text-slate-500">
-                      Uploaded {format(new Date(document.uploadDate), "MMM d, yyyy")}
+                      Uploaded {format(new Date(document.upload_date_c), "MMM d, yyyy")}
                     </p>
                   </div>
                 </div>

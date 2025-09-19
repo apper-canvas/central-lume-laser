@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { format, subMonths } from "date-fns";
+import ApperIcon from "@/components/ApperIcon";
 import Card from "@/components/atoms/Card";
 import Button from "@/components/atoms/Button";
 import Badge from "@/components/atoms/Badge";
-import QuickStats from "@/components/molecules/QuickStats";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
-import ApperIcon from "@/components/ApperIcon";
+import QuickStats from "@/components/molecules/QuickStats";
 import companiesService from "@/services/api/companiesService";
 import financialsService from "@/services/api/financialsService";
 import keyDatesService from "@/services/api/keyDatesService";
-
 const Reports = () => {
   const [companies, setCompanies] = useState([])
   const [financials, setFinancials] = useState([])
@@ -44,28 +43,28 @@ const Reports = () => {
     loadReportData()
   }, [])
   
-  const getFilteredFinancials = () => {
+const getFilteredFinancials = () => {
     const months = dateRange === "3months" ? 3 : dateRange === "6months" ? 6 : 12
     const cutoffDate = subMonths(new Date(), months)
-    return financials.filter(f => new Date(f.date) >= cutoffDate)
+    return financials.filter(f => new Date(f.date_c) >= cutoffDate)
   }
   
   const calculateMetrics = () => {
     const filtered = getFilteredFinancials()
     
     const totalRevenue = filtered
-      .filter(f => f.type === "revenue")
-      .reduce((sum, f) => sum + f.amount, 0)
+      .filter(f => f.type_c === "revenue")
+      .reduce((sum, f) => sum + (f.amount_c || 0), 0)
     
     const totalExpenses = filtered
-      .filter(f => f.type === "expense")
-      .reduce((sum, f) => sum + f.amount, 0)
+      .filter(f => f.type_c === "expense")
+      .reduce((sum, f) => sum + (f.amount_c || 0), 0)
     
     const netProfit = totalRevenue - totalExpenses
     const profitMargin = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0
     
-    const activeCompanies = companies.filter(c => c.status === "active").length
-    const complianceScore = keyDates.filter(d => d.completed).length / Math.max(keyDates.length, 1) * 100
+    const activeCompanies = companies.filter(c => c.status_c === "active").length
+    const complianceScore = keyDates.filter(d => d.completed_c).length / Math.max(keyDates.length, 1) * 100
     
     return {
       totalRevenue,
@@ -77,11 +76,22 @@ const Reports = () => {
     }
   }
   
-  const getCompanyFinancials = () => {
+const getCompanyFinancials = () => {
+    const filtered = getFilteredFinancials()
     return companies.map(company => {
-      const companyFinancials = getFilteredFinancials().filter(f => f.companyId === company.Id)
-      const revenue = companyFinancials.filter(f => f.type === "revenue").reduce((sum, f) => sum + f.amount, 0)
-      const expenses = companyFinancials.filter(f => f.type === "expense").reduce((sum, f) => sum + f.amount, 0)
+      const companyFinancials = filtered.filter(f => {
+        const companyId = f.company_id_c?.Id || f.company_id_c
+        return companyId === company.Id
+      })
+      
+      const revenue = companyFinancials
+        .filter(f => f.type_c === "revenue")
+        .reduce((sum, f) => sum + (f.amount_c || 0), 0)
+      
+      const expenses = companyFinancials
+        .filter(f => f.type_c === "expense")
+        .reduce((sum, f) => sum + (f.amount_c || 0), 0)
+      
       const profit = revenue - expenses
       
       return {
@@ -183,10 +193,10 @@ const Reports = () => {
             ) : (
               <div className="space-y-4">
                 {companyFinancials.map((company) => (
-                  <div key={company.Id} className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+<div key={company.Id} className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
                     <div className="flex-1">
-                      <h4 className="font-medium text-slate-900">{company.name}</h4>
-                      <p className="text-sm text-slate-600">Reg. #{company.registrationNumber}</p>
+                      <h4 className="font-medium text-slate-900">{company.name_c || company.Name}</h4>
+                      <p className="text-sm text-slate-600">Reg. #{company.registration_number_c}</p>
                     </div>
                     <div className="grid grid-cols-3 gap-6 text-right">
                       <div>

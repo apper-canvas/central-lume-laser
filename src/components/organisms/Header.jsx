@@ -1,48 +1,35 @@
-import React from "react"
-import { useLocation } from "react-router-dom"
-import Button from "@/components/atoms/Button"
-import ApperIcon from "@/components/ApperIcon"
+import React from "react";
+import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
 
-const pageNames = {
-  "/dashboard": "Dashboard",
-  "/companies": "Companies", 
-  "/calendar": "Calendar",
-  "/documents": "Documents",
-  "/reports": "Reports"
-}
-
-const Header = ({ onMenuClick }) => {
-  const location = useLocation()
-  const currentPage = pageNames[location.pathname] || "Dashboard"
-  
+function Header({ onMenuClick, rightContent }) {
   return (
-    <header className="bg-white border-b border-slate-200 px-6 py-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onMenuClick}
-            className="lg:hidden"
-          >
-            <ApperIcon name="Menu" size={20} />
-          </Button>
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">{currentPage}</h1>
-            <p className="text-sm text-slate-500">Manage your limited companies</p>
-          </div>
-        </div>
+    <header className="bg-white shadow-sm border-b border-slate-200 px-4 lg:px-6 h-16 flex items-center justify-between">
+      <div className="flex items-center space-x-4">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onMenuClick}
+          className="lg:hidden"
+        >
+          <ApperIcon name="Menu" size={20} />
+        </Button>
         
-        <div className="flex items-center space-x-3">
-          <Button variant="ghost" size="sm">
-            <ApperIcon name="Bell" size={18} className="mr-2" />
-            <span className="hidden sm:inline">Notifications</span>
-          </Button>
-          <Button variant="ghost" size="sm">
-            <ApperIcon name="Settings" size={18} className="mr-2" />
-            <span className="hidden sm:inline">Settings</span>
-          </Button>
+        <div className="hidden lg:block">
+          <h1 className="text-lg font-semibold text-slate-900">
+            LTD Central
+          </h1>
         </div>
+      </div>
+      
+      <div className="flex items-center space-x-4">
+        <Button variant="ghost" size="sm">
+          <ApperIcon name="Bell" size={18} />
+        </Button>
+        <Button variant="ghost" size="sm">
+          <ApperIcon name="Settings" size={18} />
+        </Button>
+        {rightContent}
       </div>
     </header>
   )

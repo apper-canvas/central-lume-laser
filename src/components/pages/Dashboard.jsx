@@ -50,10 +50,10 @@ const Dashboard = () => {
     </div>
   )
   
-  const activeCompanies = companies.filter(c => c.status === "active").length
-  const dormantCompanies = companies.filter(c => c.status === "dormant").length
-  const overdueTasks = upcomingDeadlines.filter(d => new Date(d.dueDate) < new Date()).length
-  const upcomingTasks = upcomingDeadlines.filter(d => new Date(d.dueDate) >= new Date()).length
+const activeCompanies = companies.filter(c => c.status_c === "active").length
+  const dormantCompanies = companies.filter(c => c.status_c === "dormant").length
+  const overdueTasks = upcomingDeadlines.filter(d => new Date(d.due_date_c) < new Date()).length
+  const upcomingTasks = upcomingDeadlines.filter(d => new Date(d.due_date_c) >= new Date()).length
   
   return (
     <div className="p-6 space-y-6">

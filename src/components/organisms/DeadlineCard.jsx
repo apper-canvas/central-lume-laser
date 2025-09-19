@@ -5,7 +5,7 @@ import Badge from "@/components/atoms/Badge"
 import ApperIcon from "@/components/ApperIcon"
 
 const DeadlineCard = ({ deadline }) => {
-  const daysUntil = differenceInDays(new Date(deadline.dueDate), new Date())
+const daysUntil = differenceInDays(new Date(deadline.due_date_c), new Date())
   
   const getPriorityColor = (priority, daysUntil) => {
     if (daysUntil <= 7) return "error"
@@ -20,10 +20,10 @@ const DeadlineCard = ({ deadline }) => {
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
           <h4 className="font-semibold text-slate-900 mb-1">
-            {deadline.description}
+{deadline.description_c}
           </h4>
           <p className="text-sm text-slate-600">
-            {deadline.companyName}
+{deadline.company_name_c}
           </p>
         </div>
         <Badge variant={priorityColor}>
@@ -34,11 +34,11 @@ const DeadlineCard = ({ deadline }) => {
       <div className="flex items-center justify-between text-sm">
         <div className="flex items-center text-slate-500">
           <ApperIcon name="Calendar" size={14} className="mr-1" />
-          <span>{format(new Date(deadline.dueDate), "MMM d, yyyy")}</span>
+<span>{format(new Date(deadline.due_date_c), "MMM d, yyyy")}</span>
         </div>
         <div className="flex items-center text-slate-500">
-          <ApperIcon name="AlertTriangle" size={14} className="mr-1" />
-          <span className="capitalize">{deadline.priority}</span>
+<ApperIcon name="AlertTriangle" size={14} className="mr-1" />
+          <span className="capitalize">{deadline.priority_c}</span>
         </div>
       </div>
     </Card>

@@ -86,8 +86,8 @@ const CompanyDetail = () => {
   ]
   
   const calculateTotals = () => {
-    const revenue = financials.filter(f => f.type === "revenue").reduce((sum, f) => sum + f.amount, 0)
-    const expenses = financials.filter(f => f.type === "expense").reduce((sum, f) => sum + f.amount, 0)
+const revenue = financials.filter(f => f.type_c === "revenue").reduce((sum, f) => sum + (f.amount_c || 0), 0)
+    const expenses = financials.filter(f => f.type_c === "expense").reduce((sum, f) => sum + (f.amount_c || 0), 0)
     return { revenue, expenses, profit: revenue - expenses }
   }
   
@@ -105,10 +105,10 @@ const CompanyDetail = () => {
           <div className="h-6 w-px bg-slate-300" />
           <div>
             <div className="flex items-center space-x-3">
-              <h1 className="text-2xl font-bold text-slate-900">{company.name}</h1>
-              <StatusIndicator status={company.status} />
+<h1 className="text-2xl font-bold text-slate-900">{company.name_c || company.Name}</h1>
+              <StatusIndicator status={company.status_c} />
             </div>
-            <p className="text-slate-600">Registration #{company.registrationNumber}</p>
+            <p className="text-slate-600">Registration #{company.registration_number_c}</p>
           </div>
         </div>
         
@@ -158,16 +158,16 @@ const CompanyDetail = () => {
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span className="text-slate-600">Incorporation Date:</span>
-                        <span className="text-slate-900">{format(new Date(company.incorporationDate), "MMM d, yyyy")}</span>
+<span className="text-slate-900">{format(new Date(company.incorporation_date_c), "MMM d, yyyy")}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-slate-600">Year End:</span>
-                        <span className="text-slate-900">{format(new Date(company.yearEnd), "MMM d")}</span>
+<span className="text-slate-900">{format(new Date(company.year_end_c), "MMM d")}</span>
                       </div>
-                      {company.vatNumber && (
+{company.vat_number_c && (
                         <div className="flex justify-between">
                           <span className="text-slate-600">VAT Number:</span>
-                          <span className="text-slate-900">{company.vatNumber}</span>
+                          <span className="text-slate-900">{company.vat_number_c}</span>
                         </div>
                       )}
                     </div>
@@ -175,12 +175,10 @@ const CompanyDetail = () => {
                   
                   <div>
                     <h4 className="text-sm font-medium text-slate-700 mb-2">Registered Address</h4>
-                    <div className="text-sm text-slate-900 space-y-1">
-                      <div>{company.registeredAddress.line1}</div>
-                      {company.registeredAddress.line2 && <div>{company.registeredAddress.line2}</div>}
-                      <div>{company.registeredAddress.city}</div>
-                      <div>{company.registeredAddress.postcode}</div>
-                      <div>{company.registeredAddress.country}</div>
+<div className="text-sm text-slate-900 space-y-1">
+                      {company.registered_address_c && company.registered_address_c.split('\n').map((line, index) => (
+                        line.trim() && <div key={index}>{line.trim()}</div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -242,20 +240,20 @@ const CompanyDetail = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {financials.map((record) => (
+{financials.map((record) => (
                       <tr key={record.Id} className="border-b border-slate-100 hover:bg-slate-50">
                         <td className="py-3 px-4 text-slate-600">
-                          {format(new Date(record.date), "MMM d, yyyy")}
+                          {format(new Date(record.date_c), "MMM d, yyyy")}
                         </td>
-                        <td className="py-3 px-4 text-slate-900">{record.description}</td>
-                        <td className="py-3 px-4 text-slate-600">{record.category}</td>
+                        <td className="py-3 px-4 text-slate-900">{record.description_c}</td>
+                        <td className="py-3 px-4 text-slate-600">{record.category_c}</td>
                         <td className="py-3 px-4">
-                          <Badge variant={record.type === "revenue" ? "success" : "warning"}>
-                            {record.type}
+                          <Badge variant={record.type_c === "revenue" ? "success" : "warning"}>
+                            {record.type_c}
                           </Badge>
                         </td>
-                        <td className={`py-3 px-4 text-right font-medium ${record.type === "revenue" ? "text-emerald-600" : "text-red-600"}`}>
-                          £{record.amount.toLocaleString()}
+                        <td className={`py-3 px-4 text-right font-medium ${record.type_c === "revenue" ? "text-emerald-600" : "text-red-600"}`}>
+                          £{(record.amount_c || 0).toLocaleString()}
                         </td>
                       </tr>
                     ))}
@@ -284,17 +282,17 @@ const CompanyDetail = () => {
             ) : (
               <div className="space-y-4">
                 {keyDates.map((date) => (
-                  <div key={date.Id} className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+<div key={date.Id} className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
                     <div>
-                      <h4 className="font-medium text-slate-900">{date.description}</h4>
-                      <p className="text-sm text-slate-600">{date.type}</p>
+                      <h4 className="font-medium text-slate-900">{date.description_c}</h4>
+                      <p className="text-sm text-slate-600">{date.type_c}</p>
                     </div>
                     <div className="text-right">
                       <p className="text-slate-900 font-medium">
-                        {format(new Date(date.dueDate), "MMM d, yyyy")}
+                        {format(new Date(date.due_date_c), "MMM d, yyyy")}
                       </p>
-                      <Badge variant={date.completed ? "success" : "warning"}>
-                        {date.completed ? "Completed" : "Pending"}
+                      <Badge variant={date.completed_c ? "success" : "warning"}>
+                        {date.completed_c ? "Completed" : "Pending"}
                       </Badge>
                     </div>
                   </div>

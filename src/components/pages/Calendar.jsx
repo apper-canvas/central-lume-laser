@@ -42,11 +42,11 @@ const Calendar = () => {
     })
   }
   
-  const getDatesForDay = (day) => {
-    return keyDates.filter(date => isSameDay(new Date(date.dueDate), day))
+const getDatesForDay = (day) => {
+    return keyDates.filter(date => isSameDay(new Date(date.due_date_c), day))
   }
   
-  const getPriorityColor = (priority, dueDate) => {
+const getPriorityColor = (priority, dueDate) => {
     const daysUntil = Math.ceil((new Date(dueDate) - new Date()) / (1000 * 60 * 60 * 24))
     if (daysUntil <= 0) return "error"
     if (daysUntil <= 7) return "error"
@@ -149,19 +149,19 @@ const Calendar = () => {
                   <div className="space-y-1">
                     {dayDates.slice(0, 2).map((date) => (
                       <div
-                        key={date.Id}
+key={date.Id}
                         className="text-xs p-1 rounded truncate"
                         style={{
-                          backgroundColor: getPriorityColor(date.priority, date.dueDate) === "error" 
-                            ? "#fef2f2" : getPriorityColor(date.priority, date.dueDate) === "warning" 
+                          backgroundColor: getPriorityColor(date.priority_c, date.due_date_c) === "error" 
+                            ? "#fef2f2" : getPriorityColor(date.priority_c, date.due_date_c) === "warning" 
                             ? "#fffbeb" : "#eff6ff",
-                          color: getPriorityColor(date.priority, date.dueDate) === "error" 
-                            ? "#dc2626" : getPriorityColor(date.priority, date.dueDate) === "warning" 
+                          color: getPriorityColor(date.priority_c, date.due_date_c) === "error" 
+                            ? "#dc2626" : getPriorityColor(date.priority_c, date.due_date_c) === "warning" 
                             ? "#d97706" : "#2563eb"
                         }}
-                        title={date.description}
+                        title={date.description_c}
                       >
-                        {date.description}
+                        {date.description_c}
                       </div>
                     ))}
                     {dayDates.length > 2 && (
@@ -185,32 +185,32 @@ const Calendar = () => {
               actionLabel="Add Date"
             />
           ) : (
-            keyDates
-              .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+keyDates
+              .sort((a, b) => new Date(a.due_date_c) - new Date(b.due_date_c))
               .map((date) => {
-                const daysUntil = Math.ceil((new Date(date.dueDate) - new Date()) / (1000 * 60 * 60 * 24))
+                const daysUntil = Math.ceil((new Date(date.due_date_c) - new Date()) / (1000 * 60 * 60 * 24))
                 return (
                   <Card key={date.Id} className="p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
                         <div className="flex items-center space-x-3 mb-2">
-                          <h3 className="font-semibold text-slate-900">{date.description}</h3>
-                          <Badge variant={getPriorityColor(date.priority, date.dueDate)}>
+                          <h3 className="font-semibold text-slate-900">{date.description_c}</h3>
+                          <Badge variant={getPriorityColor(date.priority_c, date.due_date_c)}>
                             {daysUntil <= 0 ? "Overdue" : `${daysUntil} days`}
                           </Badge>
                         </div>
                         <div className="flex items-center space-x-4 text-sm text-slate-600">
                           <div className="flex items-center">
                             <ApperIcon name="Building2" size={14} className="mr-1" />
-                            <span>{date.companyName}</span>
+                            <span>{date.company_name_c}</span>
                           </div>
                           <div className="flex items-center">
                             <ApperIcon name="Tag" size={14} className="mr-1" />
-                            <span className="capitalize">{date.type}</span>
+                            <span className="capitalize">{date.type_c}</span>
                           </div>
                           <div className="flex items-center">
                             <ApperIcon name="Calendar" size={14} className="mr-1" />
-                            <span>{format(new Date(date.dueDate), "MMM d, yyyy")}</span>
+                            <span>{format(new Date(date.due_date_c), "MMM d, yyyy")}</span>
                           </div>
                         </div>
                       </div>

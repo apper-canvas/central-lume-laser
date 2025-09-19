@@ -42,14 +42,15 @@ const Companies = () => {
     let filtered = companies
     
     if (searchTerm) {
-      filtered = filtered.filter(company =>
-        company.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        company.registrationNumber.includes(searchTerm)
+filtered = filtered.filter(company =>
+        (company.name_c && company.name_c.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (company.Name && company.Name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (company.registration_number_c && company.registration_number_c.includes(searchTerm))
       )
     }
     
     if (statusFilter !== "all") {
-      filtered = filtered.filter(company => company.status === statusFilter)
+      filtered = filtered.filter(company => company.status_c === statusFilter)
     }
     
     setFilteredCompanies(filtered)
