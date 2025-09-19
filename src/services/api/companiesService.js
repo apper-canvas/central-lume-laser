@@ -11,7 +11,7 @@ const companiesService = {
         apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
       })
 
-      const params = {
+const params = {
         fields: [
           {"field": {"Name": "Name"}},
           {"field": {"Name": "name_c"}},
@@ -21,8 +21,9 @@ const companiesService = {
           {"field": {"Name": "directors_c"}},
           {"field": {"Name": "status_c"}},
           {"field": {"Name": "vat_number_c"}},
-{"field": {"Name": "year_end_c"}},
-          {"field": {"Name": "website_c"}}
+          {"field": {"Name": "year_end_c"}},
+          {"field": {"Name": "website_c"}},
+          {"field": {"Name": "logo_c"}}
         ]
       }
 
@@ -50,7 +51,7 @@ const companiesService = {
       })
 
       const params = {
-        fields: [
+fields: [
           {"field": {"Name": "Name"}},
           {"field": {"Name": "name_c"}},
           {"field": {"Name": "registration_number_c"}},
@@ -59,8 +60,9 @@ const companiesService = {
           {"field": {"Name": "directors_c"}},
           {"field": {"Name": "status_c"}},
           {"field": {"Name": "vat_number_c"}},
-{"field": {"Name": "year_end_c"}},
-          {"field": {"Name": "website_c"}}
+          {"field": {"Name": "year_end_c"}},
+          {"field": {"Name": "website_c"}},
+          {"field": {"Name": "logo_c"}}
         ]
       }
 
@@ -87,7 +89,7 @@ const companiesService = {
         apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
       })
 
-      const params = {
+const params = {
         records: [{
           Name: companyData.name || "",
           name_c: companyData.name || "",
@@ -99,8 +101,9 @@ const companiesService = {
           directors_c: Array.isArray(companyData.directors) ? companyData.directors.join(', ') : companyData.directors || "",
           status_c: companyData.status || "active",
           vat_number_c: companyData.vatNumber || "",
-year_end_c: companyData.yearEnd || "",
-          website_c: companyData.website || ""
+          year_end_c: companyData.yearEnd || "",
+          website_c: companyData.website || "",
+          logo_c: companyData.logo || ""
         }]
       }
 
@@ -142,7 +145,7 @@ year_end_c: companyData.yearEnd || "",
       const params = {
         records: [{
           Id: id,
-          Name: updates.name || "",
+Name: updates.name || "",
           name_c: updates.name || "",
           registration_number_c: updates.registrationNumber || "",
           incorporation_date_c: updates.incorporationDate || "",
@@ -151,9 +154,10 @@ year_end_c: companyData.yearEnd || "",
             updates.registeredAddress || "",
           directors_c: Array.isArray(updates.directors) ? updates.directors.join(', ') : updates.directors || "",
           status_c: updates.status || "active",
-vat_number_c: updates.vatNumber || "",
+          vat_number_c: updates.vatNumber || "",
           year_end_c: updates.yearEnd || "",
-          website_c: updates.website || ""
+          website_c: updates.website || "",
+          logo_c: updates.logo || ""
         }]
       }
 

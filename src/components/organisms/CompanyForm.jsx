@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { toast } from "react-toastify"
 import Button from "@/components/atoms/Button"
 import FormField from "@/components/molecules/FormField"
@@ -8,7 +8,8 @@ import companiesService from "@/services/api/companiesService"
 
 const CompanyForm = ({ onSuccess, onCancel }) => {
   const [loading, setLoading] = useState(false)
-const [formData, setFormData] = useState({
+  const [logoLoading, setLogoLoading] = useState(false)
+  const [formData, setFormData] = useState({
     name: "",
     registrationNumber: "",
     incorporationDate: "",
@@ -22,9 +23,57 @@ const [formData, setFormData] = useState({
     directors: [],
     status: "active",
     vatNumber: "",
-yearEnd: "",
-    website: ""
+    yearEnd: "",
+    website: "",
+    logo: ""
   })
+
+  // Debounce function for logo fetching
+  useEffect(() => {
+    const fetchLogo = async () => {
+      if (!formData.website || formData.website.length < 10) {
+        setFormData(prev => ({ ...prev, logo: "" }))
+        return
+      }
+
+      setLogoLoading(true)
+      
+      try {
+        const { ApperClient } = window.ApperSDK
+        const apperClient = new ApperClient({
+          apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+          apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+        })
+
+        const result = await apperClient.functions.invoke(import.meta.env.VITE_FETCH_COMPANY_LOGO, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            website: formData.website
+          })
+        })
+
+        if (result.success && result.data?.logo) {
+          setFormData(prev => ({ ...prev, logo: result.data.logo }))
+          toast.success("Company logo fetched successfully!")
+        } else {
+          console.error('Logo fetch failed:', result.message)
+          toast.info("Could not fetch company logo")
+        }
+      } catch (error) {
+        console.error('Error fetching logo:', error)
+        toast.info("Could not fetch company logo")
+      } finally {
+        setLogoLoading(false)
+      }
+    }
+
+    const timeoutId = setTimeout(fetchLogo, 1000) // Debounce for 1 second
+
+    return () => clearTimeout(timeoutId)
+  }, [formData.website])
   
   const handleChange = (field, value) => {
     if (field.includes(".")) {
@@ -43,7 +92,6 @@ yearEnd: "",
       }))
     }
   }
-  
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -113,7 +161,7 @@ yearEnd: "",
           </select>
         </FormField>
 
-        <FormField label="Website" className="mb-4">
+<FormField label="Website" className="mb-4">
           <Input
             type="url"
             value={formData.website}
@@ -122,6 +170,40 @@ yearEnd: "",
             className="input-field"
           />
         </FormField>
+
+        {/* Logo Preview Section */}
+        {(formData.website && formData.website.length > 10) && (
+          <FormField label="Company Logo" className="mb-4">
+            <div className="flex items-center space-x-4">
+              {logoLoading ? (
+                <div className="w-20 h-20 border-2 border-slate-300 rounded-lg flex items-center justify-center">
+                  <ApperIcon name="Loader2" size={24} className="animate-spin text-primary-600" />
+                </div>
+              ) : formData.logo ? (
+                <div className="w-20 h-20 border-2 border-slate-300 rounded-lg overflow-hidden">
+                  <img 
+                    src={formData.logo} 
+                    alt="Company logo" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="w-20 h-20 border-2 border-dashed border-slate-300 rounded-lg flex items-center justify-center">
+                  <ApperIcon name="Building2" size={24} className="text-slate-400" />
+                </div>
+              )}
+              <div className="flex-1">
+                {logoLoading ? (
+                  <p className="text-sm text-slate-600">Fetching company logo...</p>
+                ) : formData.logo ? (
+                  <p className="text-sm text-emerald-600">Logo fetched successfully</p>
+                ) : formData.website.length > 10 ? (
+                  <p className="text-sm text-slate-500">Logo will be fetched automatically</p>
+                ) : null}
+              </div>
+            </div>
+          </FormField>
+        )}
       </div>
       
       <div className="space-y-4">

@@ -25,34 +25,51 @@ const CompanyCard = ({ company }) => {
   
   return (
     <Card className="p-6 transition-all duration-200 hover:shadow-lg">
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex-1">
-          <div className="flex items-center space-x-2 mb-2">
-            <h3 className="text-lg font-semibold text-slate-900 truncate">
-{company.name_c || company.Name}
-            </h3>
-            <StatusIndicator status={company.status} />
-          </div>
-<p className="text-sm text-slate-500 mb-1">
-            Reg. #{company.registration_number_c}
-          </p>
-<p className="text-sm text-slate-500">
-Incorporated {format(new Date(company.incorporation_date_c), "MMM d, yyyy")}
-          </p>
-          {company.website_c && (
-            <p className="text-sm text-slate-600 flex items-center gap-1 mt-1">
-              <ApperIcon name="Globe" size={14} />
-              <a 
-                href={company.website_c} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-primary-600 hover:text-primary-700 hover:underline"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {company.website_c.replace(/^https?:\/\//, '').replace(/\/$/, '')}
-              </a>
-            </p>
+<div className="flex items-start justify-between mb-4">
+        <div className="flex items-center space-x-3">
+          {company.logo_c ? (
+            <div className="w-12 h-12 rounded-lg overflow-hidden border border-slate-200 flex-shrink-0">
+              <img 
+                src={company.logo_c} 
+                alt={`${company.name_c || company.Name} logo`}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ) : (
+            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center flex-shrink-0">
+              <ApperIcon name="Building2" size={20} className="text-white" />
+            </div>
           )}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center space-x-2 mb-2">
+              <h3 className="text-lg font-semibold text-slate-900 truncate">
+                {company.name_c || company.Name}
+              </h3>
+              <StatusIndicator status={company.status} />
+            </div>
+            <p className="text-sm text-slate-500 mb-1">
+              Reg. #{company.registration_number_c}
+            </p>
+            <p className="text-sm text-slate-500">
+              Incorporated {format(new Date(company.incorporation_date_c), "MMM d, yyyy")}
+            </p>
+            {company.website_c && (
+              <p className="text-sm text-slate-600 flex items-center gap-1 mt-1">
+                <ApperIcon name="Globe" size={14} />
+                <a 
+                  href={company.website_c} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary-600 hover:text-primary-700 hover:underline truncate"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {company.website_c.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                </a>
+              </p>
+            )}
+          </div>
+        </div>
+        <div className="flex-shrink-0">
         </div>
         <Button variant="ghost" size="sm" onClick={handleViewDetails}>
           <ApperIcon name="ExternalLink" size={16} />
