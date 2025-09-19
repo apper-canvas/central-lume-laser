@@ -22,7 +22,8 @@ const [formData, setFormData] = useState({
     directors: [],
     status: "active",
     vatNumber: "",
-    yearEnd: ""
+yearEnd: "",
+    website: ""
   })
   
   const handleChange = (field, value) => {
@@ -108,8 +109,18 @@ const [formData, setFormData] = useState({
           >
             <option value="active">Active</option>
             <option value="dormant">Dormant</option>
-            <option value="inactive">Inactive</option>
+<option value="inactive">Inactive</option>
           </select>
+        </FormField>
+
+        <FormField label="Website" className="mb-4">
+          <Input
+            type="url"
+            value={formData.website}
+            onChange={(e) => handleChange('website', e.target.value)}
+            placeholder="https://www.example.com"
+            className="input-field"
+          />
         </FormField>
       </div>
       

@@ -37,8 +37,22 @@ const CompanyCard = ({ company }) => {
             Reg. #{company.registration_number_c}
           </p>
 <p className="text-sm text-slate-500">
-            Incorporated {format(new Date(company.incorporation_date_c), "MMM d, yyyy")}
+Incorporated {format(new Date(company.incorporation_date_c), "MMM d, yyyy")}
           </p>
+          {company.website_c && (
+            <p className="text-sm text-slate-600 flex items-center gap-1 mt-1">
+              <ApperIcon name="Globe" size={14} />
+              <a 
+                href={company.website_c} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary-600 hover:text-primary-700 hover:underline"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {company.website_c.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+              </a>
+            </p>
+          )}
         </div>
         <Button variant="ghost" size="sm" onClick={handleViewDetails}>
           <ApperIcon name="ExternalLink" size={16} />

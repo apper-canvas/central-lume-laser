@@ -21,7 +21,8 @@ const companiesService = {
           {"field": {"Name": "directors_c"}},
           {"field": {"Name": "status_c"}},
           {"field": {"Name": "vat_number_c"}},
-          {"field": {"Name": "year_end_c"}}
+{"field": {"Name": "year_end_c"}},
+          {"field": {"Name": "website_c"}}
         ]
       }
 
@@ -58,7 +59,8 @@ const companiesService = {
           {"field": {"Name": "directors_c"}},
           {"field": {"Name": "status_c"}},
           {"field": {"Name": "vat_number_c"}},
-          {"field": {"Name": "year_end_c"}}
+{"field": {"Name": "year_end_c"}},
+          {"field": {"Name": "website_c"}}
         ]
       }
 
@@ -97,7 +99,8 @@ const companiesService = {
           directors_c: Array.isArray(companyData.directors) ? companyData.directors.join(', ') : companyData.directors || "",
           status_c: companyData.status || "active",
           vat_number_c: companyData.vatNumber || "",
-          year_end_c: companyData.yearEnd || ""
+year_end_c: companyData.yearEnd || "",
+          website_c: companyData.website || ""
         }]
       }
 
@@ -148,8 +151,9 @@ const companiesService = {
             updates.registeredAddress || "",
           directors_c: Array.isArray(updates.directors) ? updates.directors.join(', ') : updates.directors || "",
           status_c: updates.status || "active",
-          vat_number_c: updates.vatNumber || "",
-          year_end_c: updates.yearEnd || ""
+vat_number_c: updates.vatNumber || "",
+          year_end_c: updates.yearEnd || "",
+          website_c: updates.website || ""
         }]
       }
 
