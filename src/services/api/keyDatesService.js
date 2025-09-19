@@ -1,11 +1,8 @@
 import { toast } from "react-toastify";
-import React from "react";
 import companySchema from "@/apper/metadata/tables/company_c.json";
 import documentSchema from "@/apper/metadata/tables/document_c.json";
 import financialSchema from "@/apper/metadata/tables/financial_c.json";
 import keyDateSchema from "@/apper/metadata/tables/key_date_c.json";
-import edgeFunctions from "@/apper/metadata/edge-functions/";
-import secrets from "@/apper/metadata/edge-functions/secrets.json";
 
 const tableName = 'key_date_c'
 
