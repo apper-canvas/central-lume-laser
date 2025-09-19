@@ -1,0 +1,102 @@
+[
+  {
+    "Id": 1,
+    "companyId": 1,
+    "type": "revenue",
+    "amount": 45000,
+    "description": "Software Development Contract",
+    "date": "2023-12-15",
+    "category": "Software Development",
+    "taxYear": "2023-24"
+  },
+  {
+    "Id": 2,
+    "companyId": 1,
+    "type": "expense",
+    "amount": 8500,
+    "description": "Office Equipment Purchase",
+    "date": "2023-11-20",
+    "category": "Equipment",
+    "taxYear": "2023-24"
+  },
+  {
+    "Id": 3,
+    "companyId": 1,
+    "type": "revenue",
+    "amount": 32000,
+    "description": "Consulting Services",
+    "date": "2023-10-10",
+    "category": "Consulting",
+    "taxYear": "2023-24"
+  },
+  {
+    "Id": 4,
+    "companyId": 2,
+    "type": "revenue",
+    "amount": 28000,
+    "description": "Energy Audit Project",
+    "date": "2023-12-05",
+    "category": "Consulting",
+    "taxYear": "2023-24"
+  },
+  {
+    "Id": 5,
+    "companyId": 2,
+    "type": "expense",
+    "amount": 5200,
+    "description": "Professional Development Training",
+    "date": "2023-11-15",
+    "category": "Training",
+    "taxYear": "2023-24"
+  },
+  {
+    "Id": 6,
+    "companyId": 3,
+    "type": "revenue",
+    "amount": 18500,
+    "description": "Marketing Campaign Design",
+    "date": "2023-12-22",
+    "category": "Design Services",
+    "taxYear": "2023-24"
+  },
+  {
+    "Id": 7,
+    "companyId": 3,
+    "type": "expense",
+    "amount": 3200,
+    "description": "Software Subscriptions",
+    "date": "2023-12-01",
+    "category": "Software",
+    "taxYear": "2023-24"
+  },
+  {
+    "Id": 8,
+    "companyId": 5,
+    "type": "revenue",
+    "amount": 22000,
+    "description": "Video Production Contract",
+    "date": "2023-12-18",
+    "category": "Video Production",
+    "taxYear": "2023-24"
+  },
+  {
+    "Id": 9,
+    "companyId": 5,
+    "type": "expense",
+    "amount": 6800,
+    "description": "Camera Equipment Rental",
+    "date": "2023-12-10",
+    "category": "Equipment Rental",
+    "taxYear": "2023-24"
+  },
+  {
+    "Id": 10,
+    "companyId": 1,
+    "type": "expense",
+    "amount": 1200,
+    "description": "Internet & Phone Bills",
+    "date": "2023-12-28",
+    "category": "Utilities",
+    "taxYear": "2023-24"
+  }
+]

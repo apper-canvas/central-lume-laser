@@ -1,0 +1,44 @@
+import React from "react"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { ToastContainer } from "react-toastify"
+import Layout from "@/components/organisms/Layout"
+import Dashboard from "@/components/pages/Dashboard"
+import Companies from "@/components/pages/Companies"
+import CompanyDetail from "@/components/pages/CompanyDetail"
+import Calendar from "@/components/pages/Calendar"
+import Documents from "@/components/pages/Documents"
+import Reports from "@/components/pages/Reports"
+
+function App() {
+  return (
+    <BrowserRouter>
+      <div className="min-h-screen bg-slate-50">
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/companies" element={<Companies />} />
+            <Route path="/companies/:id" element={<CompanyDetail />} />
+            <Route path="/calendar" element={<Calendar />} />
+            <Route path="/documents" element={<Documents />} />
+            <Route path="/reports" element={<Reports />} />
+          </Routes>
+        </Layout>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          className="z-[9999]"
+        />
+      </div>
+    </BrowserRouter>
+  )
+}
+
+export default App
